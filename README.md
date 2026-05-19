@@ -96,7 +96,7 @@ This repo includes `netlify.toml`, so Netlify can host the web app directly from
 4. Use these build settings:
 
 ```text
-Build command: leave empty
+Build command: npm run build
 Publish directory: public
 Functions directory: netlify/functions
 ```

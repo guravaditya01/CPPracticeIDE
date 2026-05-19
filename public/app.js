@@ -12,7 +12,7 @@ const defaultProject = {
 };
 
 let project = normalizeProject(loadProject());
-let appConfig = { googleClientId: "" };
+let appConfig = window.APP_CONFIG || { googleClientId: "" };
 let accessToken = "";
 let tokenClient = null;
 
@@ -573,9 +573,13 @@ elements.rememberSignIn.addEventListener("change", () => {
 window.addEventListener("load", async () => {
   try {
     const response = await fetch("/api/config");
-    appConfig = await response.json();
+    const serverConfig = await response.json();
+    appConfig = {
+      ...appConfig,
+      ...Object.fromEntries(Object.entries(serverConfig).filter(([, value]) => value)),
+    };
   } catch {
-    appConfig = { googleClientId: "" };
+    appConfig = window.APP_CONFIG || { googleClientId: "" };
   }
   if (appConfig.googleClientId) {
     initGoogleAuth();
