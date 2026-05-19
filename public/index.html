@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>C++ Drive Practice IDE</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-row">
+          <div>
+            <h1>C++ Practice</h1>
+            <p id="syncStatus">Local draft</p>
+          </div>
+        </div>
+
+        <div class="auth-panel">
+          <button id="loginBtn" class="primary-button">Sign in with Google</button>
+          <button id="syncBtn" class="secondary-button" disabled>Sync Drive</button>
+          <label class="remember-row">
+            <input id="rememberSignIn" type="checkbox" />
+            Remember this device
+          </label>
+        </div>
+
+        <div class="tree-actions">
+          <button id="newFileBtn">New file</button>
+          <button id="newFolderBtn">New folder</button>
+        </div>
+        <div class="selection-card">
+          <span class="label">Selected folder</span>
+          <strong id="selectedFolderLabel">Project root</strong>
+        </div>
+        <nav id="fileTree" class="file-tree" aria-label="Project files"></nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <span class="label">Editing</span>
+            <strong id="activePath">main.cpp</strong>
+          </div>
+          <div class="run-actions">
+            <button id="runFileBtn" class="primary-button">Run file</button>
+            <button id="runProjectBtn" class="secondary-button">Run project</button>
+          </div>
+        </header>
+
+        <section class="editor-grid">
+          <div class="editor-panel">
+            <textarea id="editor" spellcheck="false" aria-label="C++ editor"></textarea>
+          </div>
+          <div class="io-panel">
+            <div class="panel-section">
+              <label for="stdin">Input</label>
+              <textarea id="stdin" spellcheck="false" placeholder="stdin for your program"></textarea>
+            </div>
+            <div class="panel-section grow">
+              <label for="output">Output</label>
+              <pre id="output">Ready.</pre>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
