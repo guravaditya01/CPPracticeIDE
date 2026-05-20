@@ -12,3 +12,14 @@
   from = "/api/run"
   to = "/.netlify/functions/run"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Embedder-Policy = "require-corp"
+
+[[headers]]
+  for = "/browser-runner.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

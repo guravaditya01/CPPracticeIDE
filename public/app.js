@@ -2,6 +2,7 @@ const STORAGE_KEY = "cpp-drive-practice-project";
 const REMEMBER_KEY = "cpp-drive-practice-remember-google";
 const DRIVE_FILE_NAME = "cpp-practice-ide-project.json";
 const DRIVE_SCOPE = "https://www.googleapis.com/auth/drive.file";
+let browserRunnerPromise;
 
 const defaultProject = {
   activePath: "",
@@ -428,7 +429,25 @@ int main() {
 async function run(mode) {
   persistEditor();
   saveProject("Saved locally");
-  elements.output.textContent = mode === "project" ? "Compiling project..." : `Compiling ${project.activePath}...`;
+  elements.output.textContent = mode === "project" ? "Starting browser project run..." : `Starting browser run for ${project.activePath}...`;
+
+  try {
+    if (!browserRunnerPromise) browserRunnerPromise = import("/browser-runner.js");
+    const { runCppInBrowser } = await browserRunnerPromise;
+    const result = await runCppInBrowser({
+      files: project.files,
+      mode,
+      targetPath: project.activePath,
+      stdin: elements.stdin.value,
+      status: (message) => {
+        elements.output.textContent = message;
+      },
+    });
+    renderRunResult(result);
+    return;
+  } catch (error) {
+    elements.output.textContent = `${error.message}\n\nTrying local server runner...`;
+  }
 
   const response = await fetch("/api/run", {
     method: "POST",
@@ -446,7 +465,10 @@ async function run(mode) {
     elements.output.textContent = result.error;
     return;
   }
+  renderRunResult(result);
+}
 
+function renderRunResult(result) {
   const lines = [];
   if (result.timedOut) lines.push("Process timed out.");
   if (result.phase === "compile") lines.push("Compilation failed.");

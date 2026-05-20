@@ -7,7 +7,7 @@ export async function handler() {
     body: JSON.stringify({
       ok: false,
       error:
-        "Online C++ execution is not enabled on this Netlify deployment yet. Editing and Google Drive sync work online, but running untrusted C++ needs a separate sandboxed runner.",
+        "Browser C++ execution could not start. Make sure the latest Netlify deploy includes cross-origin isolation headers, then hard refresh the page.",
     }),
   };
 }

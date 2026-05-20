@@ -151,4 +151,8 @@ http://localhost:3000
 
 ### C++ runner on Netlify
 
-The Netlify deployment supports editing, file management, progress tracking, and Google Drive sync. The local C++ runner uses `g++`, but Netlify should not be used to run arbitrary public C++ programs directly. The included Netlify `/api/run` function returns a clear message until a proper sandboxed runner is added.
+The Netlify deployment uses a browser-based WebAssembly C++ runner. On first run, the user's browser downloads the compiler runtime, so the first compile can be slow. After that, browser caching helps.
+
+The runner is designed for practice exercises and common standard-library programs. Very large projects, OS-specific APIs, networking, threads, and native system calls may not work like a desktop `g++` environment.
+
+The included Netlify `/api/run` function is only a fallback message. Normal online execution happens in the browser through `public/browser-runner.js`.
